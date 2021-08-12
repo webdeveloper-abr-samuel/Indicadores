@@ -1,12 +1,12 @@
 <template>
   <div class="container mt-2 text-center">
     <h1 class="mb-5 main-title">Producto Vendidos</h1>
-    <div class="row">
-      <div class="col-xl-12 col-xxl-5 d-flex">
+    <div class="row  m-0 justify-content-center align-items-center">
+      <div class="col-xl-12">
         <div class="w-100">
           <div class="row">
               <div class="col-sm-3">
-                <div class="card text-black  mb-3" style="max-width: 18rem">
+                <div class="card text-black  mb-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
@@ -25,7 +25,7 @@
                 </div>
               </div>
               <div class="col-sm-3">
-                <div class="card text-black  mb-3" style="max-width: 18rem">
+                <div class="card text-black  mb-3" >
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
@@ -46,7 +46,7 @@
                 </div>
               </div>
               <div class="col-sm-3">
-                <div class="card text-black  mb-3" style="max-width: 18rem">
+                <div class="card text-black  mb-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
@@ -68,7 +68,7 @@
 
               </div>
               <div class="col-sm-3">
-                <div class="card text-black  mb-3" style="max-width: 18rem">
+                <div class="card text-black  mb-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
@@ -89,7 +89,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-12 col-xxl-7">
+      <div class="col-xl-12">
         <div class="card flex-fill w-100">
           <div class="card-header bg-dark text-white">
             <div class="float-end">
@@ -159,6 +159,8 @@ export default {
       try {
         const result = await this.axios.get("/getAsesores");
         this.asesores = result.data.data;
+        this.asesor = result.data.data[0].savedBy;
+        this.loadData();
       } catch (error) {
         console.log(error);
       }
@@ -176,6 +178,36 @@ export default {
       Highcharts.chart(graficabar, {
         chart: {
           type: 'column',
+        },
+        responsive: {
+          rules: [{
+              condition: {
+                  maxWidth: 500
+              },
+              chartOptions: {
+                  legend: {
+                      align: 'center',
+                      verticalAlign: 'bottom',
+                      layout: 'horizontal'
+                  },
+                  yAxis: {
+                      labels: {
+                          align: 'left',
+                          x: 0,
+                          y: -5
+                      },
+                      title: {
+                          text: null
+                      }
+                  },
+                  subtitle: {
+                      text: null
+                  },
+                  credits: {
+                      enabled: false
+                  }
+              }
+          }]
         },
         credits: {
           enabled: false

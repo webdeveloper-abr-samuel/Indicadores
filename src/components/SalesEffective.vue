@@ -3,10 +3,10 @@
     <h1 class="mb-4 main-title">Ventas Efectivas</h1>
 
     <div class="row d-flex justify-content-center mb-4">                  
-      <div class="col-3">
+      <div class="col-xl-4">
         <input type="number" v-on:change="loadData()" v-model="date" class="form-control" placeholder="Escribir Año. Ej: 2020"/>
       </div>
-      <div class="col-3">
+      <div class="col-xl-4">
         <select v-model="asesor" v-on:change="loadData()" class="form-control">
             <option value="">Seleccionar Asesor</option>
             <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
@@ -86,6 +86,11 @@ export default {
       try {
         const result = await this.axios.get("/getAsesores");
         this.asesores = result.data.data;
+        this.asesor = result.data.data[0].savedBy;
+        var fecha = new Date();
+        var year = fecha.getFullYear();
+        this.date = year
+        this.loadData();
       } catch (error) {
         console.log(error);
       }
@@ -104,6 +109,36 @@ export default {
         chart: {
           type: 'column',
           spacingBottom: 5
+        },
+        responsive: {
+          rules: [{
+              condition: {
+                  maxWidth: 500
+              },
+              chartOptions: {
+                  legend: {
+                      align: 'center',
+                      verticalAlign: 'bottom',
+                      layout: 'horizontal'
+                  },
+                  yAxis: {
+                      labels: {
+                          align: 'left',
+                          x: 0,
+                          y: -5
+                      },
+                      title: {
+                          text: null
+                      }
+                  },
+                  subtitle: {
+                      text: null
+                  },
+                  credits: {
+                      enabled: false
+                  }
+              }
+          }]
         },
         credits: {
           enabled: false

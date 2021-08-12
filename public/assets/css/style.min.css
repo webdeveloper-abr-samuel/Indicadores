@@ -882,6 +882,19 @@ body {
     height: 24px
 }
 
+.logo-nav {
+    background-image: url(../img/logo.png);
+    width: 150px;
+    height: 40px;
+}
+
+.darkmode .logo-nav {
+    background-image: url(../img/logo-blanco.png);
+    width: 150px;
+    height: 40px;
+}
+
+
 .menu-toggle {
     background-image: url(../img/svg/Bulk/Menu-toggle-white.svg);
     width: 24px;
@@ -1621,7 +1634,7 @@ label {
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    background-color: #0061f7 !important;
+    background-color: #ffff2b !important;
     width: 253px;
     padding: 20px 15px 37px 20px;
     -webkit-transition: .5s all;
@@ -1875,7 +1888,7 @@ label {
     -webkit-transition: .3s all;
     -o-transition: .3s all;
     transition: .3s all;
-    background-color: #fff
+    background-color: #ffff56
 }
 
 .main-nav-end {

@@ -59,7 +59,7 @@
       <div class="container main-nav">
         <div class="main-nav-start">
           <a class="navbar-brand" href="/">
-            <img class="img-fluid" width="130"  src="../../public/assets/img/logo.png" alt="">
+            <span class="img-fluid icon logo-nav" aria-hidden="true"></span>
           </a>  
         </div>   
         <div class="main-nav-end">
@@ -117,7 +117,7 @@ export default {
   }
 
 /* body {
-    background-image: url(../images/bg-themes/2.png);
+    background-image: url(../assets/img/fondo-2.png);
     background-size: 100% 100%;
     background-position: center;
     transition: background .3s;

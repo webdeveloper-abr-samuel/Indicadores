@@ -42,7 +42,7 @@
                   </td>
                   <td>
                     <div class="progress">
-                      <div class="progress-bar" role="progressbar" v-bind:style="{'width' : item.visita+'%'}" aria-valuenow="25" aria-valuemin="0" :aria-valuemax="visted">{{ item.visita.toLocaleString("es-ES") }}</div>
+                      <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" v-bind:style="{'width' : item.visita+'%'}" aria-valuenow="25" aria-valuemin="0" :aria-valuemax="visted">{{ item.visita.toLocaleString("es-ES") }}</div>
                     </div>
                   </td>
                 </tr>
@@ -87,7 +87,7 @@ export default {
     }
   },
   created() {
-    this.loadAsesores()
+    this.loadAsesores();
   },
   methods: {
     async loadData(){
@@ -97,7 +97,8 @@ export default {
       try {
         if (this.asesor != '') {
           this.clear();
-          this.spinner = true;         
+          this.spinner = true;  
+          this.actived = false;       
           const result = await this.axios.post("/postVisit",value);
           this.datos = result.data.data;
           this.visted = result.data.visited[0].barrio
@@ -115,6 +116,8 @@ export default {
       try {
         const result = await this.axios.get("/getAsesores");
         this.asesores = result.data.data;
+        this.asesor = result.data.data[0].savedBy;
+        this.loadData();
       } catch (error) {
         console.log(error);
       }
@@ -122,6 +125,7 @@ export default {
     clear(){
       this.Max = ''
       this.Min = ''
+      this.datosPaginados = []
     },
     totalPaginas(){
       return Math.ceil(this.datos.length / this.elementos)

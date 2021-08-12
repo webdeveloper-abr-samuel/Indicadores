@@ -120,6 +120,8 @@ export default {
       try {
         const result = await this.axios.get("/getAsesores");
         this.asesores = result.data.data;
+        this.asesor = result.data.data[0].savedBy;
+        this.loadData();
       } catch (error) {
         console.log(error);
       }
@@ -137,7 +139,36 @@ export default {
       Highcharts.chart(graficabar, {
         chart: {
           type: 'column',
-          width: 700
+        },
+        responsive: {
+          rules: [{
+              condition: {
+                  maxWidth: 500
+              },
+              chartOptions: {
+                  legend: {
+                      align: 'center',
+                      verticalAlign: 'bottom',
+                      layout: 'horizontal'
+                  },
+                  yAxis: {
+                      labels: {
+                          align: 'left',
+                          x: 0,
+                          y: -5
+                      },
+                      title: {
+                          text: null
+                      }
+                  },
+                  subtitle: {
+                      text: null
+                  },
+                  credits: {
+                      enabled: false
+                  }
+              }
+          }]
         },
         credits: {
           enabled: false
