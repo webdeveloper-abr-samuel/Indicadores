@@ -1,21 +1,31 @@
 <template>
   <div class="container mt-2 text-center">
     <h1 class="mb-4 main-title">Negocios Visitados</h1>
+    <div class="row text-center mb-4">
+      <div class="col-md-6">
+        <div class="card text-black cardHigth mb-3">
+            <div class="card-body">
+              <div class="col-auto p-3 mt-1">
+                  <h2 class="card-title">{{ actual }}</h2>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+              <h6 class="p-3">Seleccione Asesor</h6>
+                <select v-model="asesor" v-on:change="loadData()" class="form-select form-select-sm bg-light border-0">
+                    <option value="">Seleccionar Asesor</option>
+                    <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
+                </select>
+          </div>
+        </div>
+      </div>      
+    </div>
+
     <div class="col-xl-12 col-xxl-7">
         <div class="card flex-fill w-100">
-          <div class="card-header  text-white">
-            <div class="float-end">
-              <div class="row g-2">
-                <div class="col-auto">
-                  <select v-model="asesor" v-on:change="loadData()" class="form-select form-select-sm bg-light border-0">
-                      <option value="">Seleccionar Asesor</option>
-                      <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>            
-          </div>
-
           <div class="d-flex justify-content-center mt-5 mb-5" v-if="spinner">
             <div class="sk-chase">
               <div class="sk-chase-dot"></div>
@@ -76,6 +86,7 @@ export default {
   data() {
     return {
       asesor: "",
+      actual: "",
       datos: [],
       asesores: [],
       elementos : 15,
@@ -87,6 +98,8 @@ export default {
     }
   },
   created() {
+    var f = new Date()    
+    this.actual = f.toDateString()
     this.loadAsesores();
   },
   methods: {

@@ -2,16 +2,35 @@
   <div class="container mt-2 text-center">
     <h1 class="mb-4 main-title">Ventas Efectivas</h1>
 
-    <div class="row d-flex justify-content-center mb-4">                  
-      <div class="col-xl-4">
-        <input type="number" v-on:change="loadData()" v-model="date" class="form-control" placeholder="Escribir Año. Ej: 2020"/>
+    <div class="row text-center mb-3">
+      <div class="col-md-5">
+        <div class="card text-black">
+            <div class="card-body">
+              <div class="col-auto mt-3 mb-3">
+                  <h2 class="card-title">{{ actual }}</h2>
+              </div>
+            </div>
+        </div>
       </div>
-      <div class="col-xl-4">
-        <select v-model="asesor" v-on:change="loadData()" class="form-control">
-            <option value="">Seleccionar Asesor</option>
-            <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
-        </select>
-      </div>
+      <div class="col-md-7">
+          <div class="card text-black  mb-3">
+              <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col-md-6">
+                      <h6 class="mb-2">Ingrese Año</h6>
+                      <input type="number" v-on:change="loadData()" v-model="date" class="form-control" placeholder="Escribir Año. Ej: 2020"/>
+                    </div>
+
+                    <div class="col-md-6" >
+                      <h6 class="mb-2">Seleccione Asesor</h6>
+                      <select v-model="asesor" v-on:change="loadData()" class="form-control">
+                        <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>      
     </div>
 
     <div class="row ">
@@ -53,6 +72,7 @@ export default {
   data() {
     return {
       asesor: "",
+      actual: "",
       date: "",
       datos: [],
       asesores: [],
@@ -60,6 +80,8 @@ export default {
     }
   },
   created() {
+    var f = new Date()    
+    this.actual = f.toDateString()
     this.loadAsesores()
   },
   methods: {
@@ -105,6 +127,8 @@ export default {
       });
 
       const graficabar = document.getElementById('graficabarras');
+      Highcharts.setOptions({ colors: [ '#6495ED','#FF7F50', '#3CB371', '#FF0000', '#F4A460'] })
+
       Highcharts.chart(graficabar, {
         chart: {
           type: 'column',

@@ -1,49 +1,35 @@
 <template>
   <div class="container mt-2 text-center">
     <h1 class="mb-5 main-title">Pedidos Hechos</h1>
+
+    <div class="row text-center mb-4">
+      <div class="col-md-6">
+        <div class="card text-black cardHigth mb-3">
+            <div class="card-body">
+              <div class="col-auto p-3 mt-1">
+                  <h2 class="card-title">{{ actual }}</h2>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+              <h6 class="p-3">Seleccione Asesor</h6>
+                <select v-model="asesor" v-on:change="loadData()" class="form-select form-select-sm bg-light border-0">
+                    <option value="">Seleccionar Asesor</option>
+                    <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
+                </select>
+          </div>
+        </div>
+      </div>      
+    </div>
+
     <div class="row  m-0 justify-content-center align-items-center">
       <div class="col-xl-12">
         <div class="w-100">
           <div class="row">
-              <div class="col-sm-3">
-                <div class="card text-black  mb-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h6 class="card-title">Asesor</h6>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                  <span style="font-size: 1em; color: black;">
-                                    <i class="fas fa-user-tie"></i>
-                                  </span>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="mt-1 mb-3">{{ data.savedBy }}</p>
-                    </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="card text-black  mb-3" >
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h6 class="card-title">Despachado</h6>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                    <span style="font-size: 1em; color: green;">
-                                      <i class="fas fa-check-circle"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="mt-1 mb-3">{{ data.Despachado }}</p>
-                    </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="card text-black  mb-3">
                     <div class="card-body">
                         <div class="row">
@@ -61,42 +47,51 @@
                         <p class="mt-1 mb-3">{{ data.Proceso }}</p>
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card text-black  mb-3" >
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col mt-0">
+                              <h6 class="card-title">Despachado</h6>
+                          </div>
+                          <div class="col-auto">
+                              <div class="stat text-primary">
+                                  <span style="font-size: 1em; color: green;">
+                                    <i class="fas fa-check-circle"></i>
+                                  </span>
+                              </div>
+                          </div>
+                      </div>
+                      <p class="mt-1 mb-3">{{ data.Despachado }}</p>
+                  </div>
               </div>
-              <div class="col-sm-3">
-                <div class="card text-black  mb-3" >
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h6 class="card-title">No Despachado</h6>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                    <span style="font-size: 1em; color: tomato;">
-                                      <i class="fas fa-times-circle"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="mt-1 mb-3">{{ data.NoDespachado }}</p>
-                    </div>
-                </div>
+            </div>  
+            <div class="col-sm-4">
+              <div class="card text-black  mb-3" >
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col mt-0">
+                              <h6 class="card-title">No Despachado</h6>
+                          </div>
+                          <div class="col-auto">
+                              <div class="stat text-primary">
+                                  <span style="font-size: 1em; color: tomato;">
+                                    <i class="fas fa-times-circle"></i>
+                                  </span>
+                              </div>
+                          </div>
+                      </div>
+                      <p class="mt-1 mb-3">{{ data.NoDespachado }}</p>
+                  </div>
               </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-xl-12">
         <div class="card flex-fill w-100">
           <div class="card-header bg-dark text-white">
-            <div class="float-end">
-              <div class="row g-2">
-                <div class="col-auto">
-                  <select v-model="asesor" v-on:change="loadData()" class="form-select form-select-sm bg-light border-0">
-                      <option value="">Seleccionar Asesor</option>
-                      <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <h5 class="card-title mb-0">Pedidos - Asesor</h5>
           </div>
           <div class="card-body pt-2 pb-3">
@@ -116,11 +111,14 @@ export default {
   data() {
     return {
       asesor: "",
+      actual: "",
       data: [],
       asesores: []
     }
   },
   created() {
+    var f = new Date()    
+    this.actual = f.toDateString()
     this.loadAsesores()
   },
   methods: {
@@ -164,6 +162,9 @@ export default {
 
 
       const graficabar = document.getElementById('graficabarras');
+
+      Highcharts.setOptions({ colors: [ '#00008B','#50B432', '#ED561B'] })
+
       Highcharts.chart(graficabar, {
         chart: {
           type: 'column',

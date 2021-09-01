@@ -1,30 +1,35 @@
 <template>
   <div class="container mt-2 text-center">
     <h1 class="mb-5 main-title">Producto Vendidos</h1>
+
+    <div class="row text-center mb-4">
+      <div class="col-md-6">
+        <div class="card text-black cardHigth mb-3">
+            <div class="card-body">
+              <div class="col-auto p-3 mt-1">
+                  <h2 class="card-title">{{ actual }}</h2>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+              <h6 class="p-3">Seleccione Asesor</h6>
+                <select v-model="asesor" v-on:change="loadData()" class="form-select form-select-sm bg-light border-0">
+                    <option value="">Seleccionar Asesor</option>
+                    <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
+                </select>
+          </div>
+        </div>
+      </div>      
+    </div>
+
     <div class="row  m-0 justify-content-center align-items-center">
       <div class="col-xl-12">
         <div class="w-100">
           <div class="row">
-              <div class="col-sm-3">
-                <div class="card text-black  mb-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col mt-0">
-                                <h6 class="card-title">Asesor</h6>
-                            </div>
-                            <div class="col-auto">
-                                <div class="stat text-primary">
-                                  <span style="font-size: 1em; color: black;">
-                                    <i class="fas fa-user-tie"></i>
-                                  </span>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="mt-1 mb-3">{{ asesorAct }}</p>
-                    </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
+              <div class="col-sm-4">
                 <div class="card text-black  mb-3" >
                     <div class="card-body">
                         <div class="row">
@@ -45,7 +50,7 @@
                     </div>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-4">
                 <div class="card text-black  mb-3">
                     <div class="card-body">
                         <div class="row">
@@ -67,7 +72,7 @@
                 </div>
 
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-4">
                 <div class="card text-black  mb-3">
                     <div class="card-body">
                         <div class="row">
@@ -82,7 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="mt-1 mb-3">{{ totalSales == NaN ? '' : totalSales }}</p>
+                        <p class="mt-1 mb-3" v-if="activate && totalSales != ''">{{ totalSales == NaN ? '' : totalSales }}</p>
                     </div>
                 </div>
               </div>
@@ -92,16 +97,6 @@
       <div class="col-xl-12">
         <div class="card flex-fill w-100">
           <div class="card-header bg-dark text-white">
-            <div class="float-end">
-              <div class="row g-2">
-                <div class="col-auto">
-                  <select v-model="asesor" v-on:change="loadData()" class="form-select form-select-sm bg-light border-0">
-                      <option value="">Seleccionar Asesor</option>
-                      <option  v-for="(item, index) in asesores" :key="index" >{{ item.savedBy }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <h5 class="card-title mb-0">Producto - valor</h5>
           </div>
           <div class="card-body pt-2 pb-3">
@@ -121,14 +116,18 @@ export default {
   data() {
     return {
       asesor: "",
+      actual: "",
       Max: [],
       Min: [],
       asesores: [],
       totalSales: "",
-      asesorAct: ""
+      asesorAct: "",
+      activate: false
     }
   },
   created() {
+    var f = new Date()    
+    this.actual = f.toDateString()
     this.loadAsesores()
   },
   methods: {
@@ -141,6 +140,7 @@ export default {
           this.clear();
           const result = await this.axios.post("/postProduct",value);
           const total = await this.axios.post("/postTotalSale",value);
+          this.activate = true
           let valor = total.data.data[0].cantidad;
           let asesor = total.data.data[0].savedBy;
           this.asesorAct = asesor
@@ -175,6 +175,9 @@ export default {
         });
 
       const graficabar = document.getElementById('graficabarras');
+
+      Highcharts.setOptions({ colors: [ '#6495ED','#FF7F50', '#3CB371', '#FF0000', '#F4A460'] })
+
       Highcharts.chart(graficabar, {
         chart: {
           type: 'column',
